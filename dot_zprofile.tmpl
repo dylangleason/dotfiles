@@ -1,9 +1,9 @@
 export EDITOR=emacs
 export GOPATH=~/.go
 {{ if eq .chezmoi.os "darwin" -}}
-export PATH=/usr/local/opt/coreutils/libexec/gnubin:~/.go/bin:$PATH
-{{ else }}
-export PATH=~/.go/bin:$PATH
+export PATH=/usr/local/opt/coreutils/libexec/gnubin:~/.go/bin:~/.pyenv/bin:~/.rbenv/bin:$PATH
+{{ else -}}
+export PATH=~/.go/bin:~/.pyenv/bin:~/.rbenv/bin:$PATH
 {{ end -}}
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
