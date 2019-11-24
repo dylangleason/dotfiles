@@ -3,6 +3,8 @@
 	email = "{{ .email }}"
 [push]
 	default = simple
+[core]
+	excludesfile = ~/.gitignore_global
 {{- if (index . "github") }}
 [github]
 	user = "{{ .github.user }}"
