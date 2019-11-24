@@ -37,6 +37,7 @@ install_packages() {
 {{ if eq .chezmoi.os "linux" -}}
 PACKAGES=(
     build-essential
+    curl
     emacs
     emacs-common-non-dfsg
     git
@@ -52,8 +53,8 @@ PACKAGES=(
 )
 
 install_cmd() {
-    local packages=("@")
-    apt-get install -y "${packages[@]}"
+    local packages=("$@")
+    sudo apt-get install -y "${packages[@]}"
 }
 
 check_package_cmd() {
