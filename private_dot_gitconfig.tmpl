@@ -1,0 +1,10 @@
+[user]
+	name = "{{ .name }}"
+	email = "{{ .email }}"
+[push]
+	default = simple
+{{- if (index . "github") }}
+[github]
+	user = "{{ .github.user }}"
+	token = "{{ .github.token }}"
+{{- end }}
