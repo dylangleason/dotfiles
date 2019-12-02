@@ -1,2 +1,17 @@
-(load-file "~/.emacs.d/init.el")
-(load-init-files-compiled)
+(load "~/.emacs.d/init")
+(byte-recompile-directory init-dir 0)
+{{ if eq .chezmoi.hostname "dylan-work" -}}
+(load-init-file "custom")
+(load-init-file "docker")
+(load-init-file "elixir")
+(load-init-file "helm")
+(load-init-file "js")
+(load-init-file "lisp")
+(load-init-file "packages")
+(load-init-file "ruby")
+(load-init-file "sql")
+(load-init-file "theme")
+(load-init-file "web")
+{{ else -}}
+(load-init-files)
+{{ end -}}

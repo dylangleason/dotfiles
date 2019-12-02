@@ -1,0 +1,5 @@
+{{ if eq .chezmoi.os "darwin" -}}
+export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/usr/local/opt/coreutils/libexec/gnubin:~/bin/:~/.local/bin:~/.go/bin:~/.pyenv/bin:~/.rbenv/bin
+{{ else -}}
+export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/snap/bin:~/bin/:~/.local/bin:~/.go/bin:~/.pyenv/bin:~/.rbenv/bin
+{{ end -}}
