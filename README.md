@@ -8,14 +8,6 @@ My dotfiles rely upon [chezmoi](https://github.com/twpayne/chezmoi), so [install
 
 ## Installation
 
-Use `chezmoi` to clone and initialize the dotfiles:
+Use `chezmoi` to clone, initialize and apply the dotfiles all in one go:
 
-    chezmoi init https://github.com/dylangleason/dotfiles.git
-
-Since `dot_emacs.d` is included via a submodule, this will need to be initialized as well:
-
-    chezmoi cd && git submodule update --init --recursive
-
-Finally, apply the changes:
-
-    chezmoi apply
+    chezmoi init --apply --verbose https://github.com/dylangleason/dotfiles.git

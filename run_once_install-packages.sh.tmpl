@@ -108,6 +108,10 @@ install_deps() {
 
 install_oh_my_zsh_cmd() {
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+    if [ -f ~/.zshrc.pre-oh-my-zsh ]; then
+        rm ~/.zshrc
+        mv ~/.zshrc.pre-oh-my-zsh ~/.zshrc
+    fi
 }
 
 install_pyenv_cmd() {
@@ -142,9 +146,9 @@ main() {
 
     echo "Installing Git packages"
     echo "-----------------------"
-    install_packages check_oh_my_zsh install_oh_my_zsh_cmd "oh-my-zsh"
     install_packages check_pyenv install_pyenv_cmd "pyenv"
     install_packages check_rbenv install_rbenv_cmd "rbenv"
+    install_packages check_oh_my_zsh install_oh_my_zsh_cmd "oh-my-zsh"
     echo ""
 }
 
