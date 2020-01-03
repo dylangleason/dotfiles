@@ -70,7 +70,7 @@ source $ZSH/oh-my-zsh.sh
 alias emacs='emacs -nw'
 alias emacsc='emacsclient -nw'
 {{ if eq .chezmoi.os "linux" -}}
-alias ls='ls --color --group-directories-first'
+alias ls='ls --color --group-directories-first -v'
 {{ else if eq .chezmoi.os "darwin" -}}
 alias ls='gls --color --group-directories-first'
 {{ end -}}
