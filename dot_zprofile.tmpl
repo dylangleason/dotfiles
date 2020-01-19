@@ -5,6 +5,9 @@ export TERM=xterm-256color
 export ZSH=~/.oh-my-zsh
 
 {{ if eq .chezmoi.os "darwin" -}}
+# macOS workaround for `path_helper` in /etc/zprofile
+export PATH=$GOODPATH
+
 # homebrew compiler and linker flags
 export CPPFLAGS="-I/usr/local/opt/readline/include"
 export LDFLAGS="-L/usr/local/opt/readline/lib"

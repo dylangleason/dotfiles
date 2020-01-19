@@ -1,5 +1,26 @@
+typeset -U path
+
+path=(
+    {{ if eq .chezmoi.os "darwin" -}}
+    /usr/local/opt/llvm/bin
+    /usr/local/opt/coreutils/libexec/gnubin
+    /opt/X11/bin
+    {{ else }}
+    /snap/bin
+    {{ end -}}
+    /usr/local/bin
+    /usr/bin
+    /bin
+    /usr/sbin
+    /sbin
+    ~/bin
+    ~/.local/bin
+    ~/.go/bin
+    ~/.pyenv/bin
+    ~/.rbenv/bin
+)
+
 {{ if eq .chezmoi.os "darwin" -}}
-export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/usr/local/opt/coreutils/libexec/gnubin:~/bin/:~/.local/bin:~/.go/bin:~/.pyenv/bin:~/.rbenv/bin
-{{ else -}}
-export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/snap/bin:~/bin/:~/.local/bin:~/.go/bin:~/.pyenv/bin:~/.rbenv/bin
+# macOS workaround for `path_helper` in /etc/zprofile
+export GOODPATH=$PATH
 {{ end -}}
