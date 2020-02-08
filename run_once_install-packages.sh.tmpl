@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 check_cmd() {
-    which $1 > /dev/null 2>&1
+    which $1
 }
 
 check_cmd_and_fail() {
@@ -33,8 +33,6 @@ install_packages() {
         $install_cmd "${selected[@]}"
     fi
 }
-
-
 
 {{ if eq .chezmoi.os "linux" -}}
 check_build_essential() {
