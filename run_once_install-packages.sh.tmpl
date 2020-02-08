@@ -44,7 +44,7 @@ PACKAGES=(
     golang
     htop
     jq
-    libreadline8
+    libreadline7
     libreadline-dev
     silversearcher-ag
     tmux
@@ -54,7 +54,7 @@ PACKAGES=(
 
 install_cmd() {
     local packages=("$@")
-    sudo apt-get install -y "${packages[@]}"
+    sudo apt-get update && apt-get install -y "${packages[@]}"
 }
 
 check_package_cmd() {
@@ -107,7 +107,7 @@ install_deps() {
 {{ end -}}
 
 install_oh_my_zsh_cmd() {
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" "" --unattended
     if [ -f ~/.zshrc.pre-oh-my-zsh ]; then
         rm ~/.zshrc
         mv ~/.zshrc.pre-oh-my-zsh ~/.zshrc
