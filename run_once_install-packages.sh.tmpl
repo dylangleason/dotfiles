@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 check_cmd() {
-    which $1
+    which $1 > /dev/null 2>&1
 }
 
 check_cmd_and_fail() {
@@ -55,6 +55,7 @@ install_deps() {
     fi
 }
 {{ else if eq .chezmoi.os "darwin" -}}
+# Set default packages if non specified
 install_deps() {
     . ~/.local/share/chezmoi/install_packages/macos.sh
     check_cmd_and_fail xcode-select
