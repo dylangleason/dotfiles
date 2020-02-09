@@ -13,5 +13,4 @@ PACKAGES=(
     tmux
     tree
     yarn
-    zsh
 )

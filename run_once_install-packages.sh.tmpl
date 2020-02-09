@@ -93,10 +93,12 @@ main() {
     install_deps
     printf "Done.\n\n"
 
-    echo "Installing Brew packages"
-    echo "------------------------"
-    install_packages check_package_cmd install_cmd "${PACKAGES[@]}"
-    echo ""
+    if [[ -n $PACKAGES ]]; then
+        echo "Installing Brew packages"
+        echo "------------------------"
+        install_packages check_package_cmd install_cmd "${PACKAGES[@]}"
+        echo ""
+    fi
 
     if [ ! -d ~/.oh-my-zsh ]; then
         echo "Installing Oh-my-zsh"
@@ -106,4 +108,11 @@ main() {
     fi
 }
 
+{{ if eq .chezmoi.hostname "docker-dev" -}}
+. install_packages/docker.sh
+{{ else if eq .chezmoi.os "linux"  -}}
+. install_packages/linux.sh
+{{ else if eq .chezmoi.os "darwin" -}}
+. install_packages/macos.sh
+{{ end -}}
 main
