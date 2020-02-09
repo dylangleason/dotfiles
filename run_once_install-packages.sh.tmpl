@@ -109,10 +109,10 @@ main() {
 }
 
 {{ if eq .chezmoi.hostname "docker-dev" -}}
-. install_packages/docker.sh
+. ~/.local/share/chezmoi/install_packages/docker.sh
 {{ else if eq .chezmoi.os "linux"  -}}
-. install_packages/linux.sh
+. ~/.local/share/chezmoi/install_packages/linux.sh
 {{ else if eq .chezmoi.os "darwin" -}}
-. install_packages/macos.sh
+. ~/.local/share/chezmoi/install_packages/macos.sh
 {{ end -}}
 main
