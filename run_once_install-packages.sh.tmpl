@@ -34,8 +34,15 @@ install_packages() {
     fi
 }
 
+
+
 {{ if eq .chezmoi.os "linux" -}}
+check_build_essential() {
+    apt-cache policy build-essential | egrep -i 'installed: [0-9]+?(\.[0-9]+)' > /dev/null 2>&1
+}
+
 install_deps() {
+    check_cmd_and_fail check_build_essential
     . ~/.local/share/chezmoi/install_packages/linux.sh
     check_cmd brew
     if [ $? -ne 0 ]; then
@@ -55,10 +62,14 @@ install_deps() {
     fi
     check_cmd brew
     if [ $? -ne 0 ]; then
-        yes '' | ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+        echo | ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
     fi
 }
 {{ end -}}
+
+check_package_cmd() {
+    brew info $1 | grep -i 'not installed' > /dev/null 2>&1
+}
 
 install_cmd() {
     check_cmd_and_fail brew
@@ -66,20 +77,14 @@ install_cmd() {
     brew install "${packages[@]}"
 }
 
-check_package_cmd() {
-    brew info $1 | grep -i 'not installed' > /dev/null 2>&1
-}
-
-install_oh_my_zsh_cmd() {
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" "" --unattended
-    if [ -f ~/.zshrc.pre-oh-my-zsh ]; then
-        rm ~/.zshrc
-        mv ~/.zshrc.pre-oh-my-zsh ~/.zshrc
+install_oh_my_zsh() {
+    if [ ! -d ~/.oh-my-zsh ]; then
+        sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" "" --unattended
+        if [ -f ~/.zshrc.pre-oh-my-zsh ]; then
+            rm ~/.zshrc
+            mv ~/.zshrc.pre-oh-my-zsh ~/.zshrc
+        fi
     fi
-}
-
-check_oh_my_zsh() {
-    [ ! -e ~/.oh-my-zsh ]
 }
 
 main() {
@@ -93,8 +98,8 @@ main() {
     echo ""
 
     echo "Installing Oh-my-zsh"
-    echo "-----------------------"
-    install_packages check_oh_my_zsh install_oh_my_zsh_cmd "oh-my-zsh"
+    echo "--------------------"
+    install_oh_my_zsh
     echo ""
 }
 
