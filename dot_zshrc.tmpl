@@ -77,5 +77,8 @@ alias ls='gls --color --group-directories-first'
 alias ll='ls -hl'
 alias la='ls -a'
 
+{{ if eq .chezmoi.os "linux" -}}
+eval $(~/.linuxbrew/bin/brew shellenv)
+{{ end -}}
 eval "$(pyenv init -)"
 eval "$(rbenv init -)"
