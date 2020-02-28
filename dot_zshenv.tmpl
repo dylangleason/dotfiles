@@ -1,22 +1,19 @@
 typeset -U path
 
 path=(
+    ~/.bin
+    ~/.go/bin
+    {{ if eq .chezmoi.os "linux" -}}
+    ~/.linuxbrew/bin
+    {{ end -}}
+    ~/.local/bin
+    ~/bin
     {{ if eq .chezmoi.os "darwin" -}}
     /usr/local/opt/llvm/bin
     /usr/local/opt/coreutils/libexec/gnubin
     /opt/X11/bin
     {{ end -}}
-    /usr/local/bin
-    /usr/bin
-    /opt/bin
-    /bin
-    /usr/sbin
-    /sbin
-    ~/bin
-    ~/.local/bin
-    ~/.go/bin
-    ~/.pyenv/bin
-    ~/.rbenv/bin
+    "$path[@]"
 )
 {{ if eq .chezmoi.os "darwin" -}}
 
