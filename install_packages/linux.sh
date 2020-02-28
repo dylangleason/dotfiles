@@ -1,0 +1,12 @@
+PACKAGES=(
+    ag
+    emacs
+    git
+    go
+    htop
+    jq
+    readline
+    tmux
+    tree
+    zsh
+)

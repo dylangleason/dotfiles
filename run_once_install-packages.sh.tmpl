@@ -35,65 +35,19 @@ install_packages() {
 }
 
 {{ if eq .chezmoi.os "linux" -}}
-PACKAGES=(
-    build-essential
-    curl
-    emacs
-    emacs-common-non-dfsg
-    git
-    golang
-    htop
-    jq
-    libreadline7
-    libreadline-dev
-    silversearcher-ag
-    tmux
-    tree
-    zsh
-)
-
-install_cmd() {
-    local packages=("$@")
-    sudo apt-get update && apt-get install -y "${packages[@]}"
-}
-
-check_package_cmd() {
-    apt-cache policy $1 | grep -i 'installed: (none)' > /dev/null 2>&1
-}
-
 install_deps() {
-    check_cmd apt-get
-    if [ $? -eq 1 ]; then
-        echo "apt-get not found"
-        exit 1
+    source install_packages/linux.sh
+    check_cmd brew
+    if [ $? -ne 0 ]; then
+        yes '' | sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"
+        test -d ~/.linuxbrew && eval $(~/.linuxbrew/bin/brew shellenv)
+        test -d /home/linuxbrew/.linuxbrew && eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
+        test -r ~/.zshrc && echo "eval \$($(brew --prefix)/bin/brew shellenv)" >> ~/.zshrc
     fi
 }
-
 {{ else if eq .chezmoi.os "darwin" -}}
-PACKAGES=(
-    ag
-    coreutils
-    emacs
-    git
-    go
-    htop
-    jq
-    readline
-    tmux
-    tree
-    zsh
-)
-
-install_cmd() {
-    local packages=("$@")
-    brew install "${packages[@]}"
-}
-
-check_package_cmd() {
-    brew info $1 | grep -i 'not installed' > /dev/null 2>&1
-}
-
 install_deps() {
+    source install_packages/macos.sh
     check_cmd_and_fail xcode-select
     xcode-select -p > /dev/null 2>&1
     if [ $? -ne 0 ]; then
@@ -101,10 +55,20 @@ install_deps() {
     fi
     check_cmd brew
     if [ $? -ne 0 ]; then
-        ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+        yes '' | ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
     fi
 }
 {{ end -}}
+
+install_cmd() {
+    check_cmd_and_fail brew
+    local packages=("$@")
+    brew install "${packages[@]}"
+}
+
+check_package_cmd() {
+    brew info $1 | grep -i 'not installed' > /dev/null 2>&1
+}
 
 install_oh_my_zsh_cmd() {
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" "" --unattended
@@ -114,24 +78,8 @@ install_oh_my_zsh_cmd() {
     fi
 }
 
-install_pyenv_cmd() {
-    bash -c "$(curl -fsSL https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer)"
-}
-
-install_rbenv_cmd() {
-    bash -c "$(curl -fsSL https://github.com/rbenv/rbenv-installer/raw/master/bin/rbenv-installer)"
-}
-
 check_oh_my_zsh() {
     [ ! -e ~/.oh-my-zsh ]
-}
-
-check_pyenv() {
-    [ ! -e ~/.pyenv ]
-}
-
-check_rbenv() {
-    [ ! -e ~/.rbenv ]
 }
 
 main() {
@@ -139,15 +87,13 @@ main() {
     install_deps
     printf "Done.\n\n"
 
-    echo "Installing OS packages"
-    echo "----------------------"
+    echo "Installing Brew packages"
+    echo "------------------------"
     install_packages check_package_cmd install_cmd "${PACKAGES[@]}"
     echo ""
 
-    echo "Installing Git packages"
+    echo "Installing Oh-my-zsh"
     echo "-----------------------"
-    install_packages check_pyenv install_pyenv_cmd "pyenv"
-    install_packages check_rbenv install_rbenv_cmd "rbenv"
     install_packages check_oh_my_zsh install_oh_my_zsh_cmd "oh-my-zsh"
     echo ""
 }
