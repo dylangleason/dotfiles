@@ -36,7 +36,7 @@ install_packages() {
 
 {{ if eq .chezmoi.os "linux" -}}
 install_deps() {
-    source install_packages/linux.sh
+    . ~/.local/share/chezmoi/install_packages/linux.sh
     check_cmd brew
     if [ $? -ne 0 ]; then
         yes '' | sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"
@@ -47,7 +47,7 @@ install_deps() {
 }
 {{ else if eq .chezmoi.os "darwin" -}}
 install_deps() {
-    source install_packages/macos.sh
+    . ~/.local/share/chezmoi/install_packages/macos.sh
     check_cmd_and_fail xcode-select
     xcode-select -p > /dev/null 2>&1
     if [ $? -ne 0 ]; then
