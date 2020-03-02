@@ -82,12 +82,10 @@ install_cmd() {
 }
 
 install_oh_my_zsh() {
-    if [ ! -d ~/.oh-my-zsh ]; then
-        sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" "" --unattended
-        if [ -f ~/.zshrc.pre-oh-my-zsh ]; then
-            rm ~/.zshrc
-            mv ~/.zshrc.pre-oh-my-zsh ~/.zshrc
-        fi
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" "" --unattended
+    if [ -f ~/.zshrc.pre-oh-my-zsh ]; then
+        rm ~/.zshrc
+        mv ~/.zshrc.pre-oh-my-zsh ~/.zshrc
     fi
 }
 
@@ -101,10 +99,12 @@ main() {
     install_packages check_package_cmd install_cmd "${PACKAGES[@]}"
     echo ""
 
-    echo "Installing Oh-my-zsh"
-    echo "--------------------"
-    install_oh_my_zsh
-    echo ""
+    if [ ! -d ~/.oh-my-zsh ]; then
+        echo "Installing Oh-my-zsh"
+        echo "--------------------"
+        install_oh_my_zsh
+        echo ""
+    fi
 }
 
 main
