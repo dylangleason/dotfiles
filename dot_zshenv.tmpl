@@ -1,4 +1,4 @@
-typeset -U path
+typeset -U PATH path
 
 path=(
     ~/.bin
@@ -9,12 +9,13 @@ path=(
     ~/.local/bin
     ~/bin
     {{ if eq .chezmoi.os "darwin" -}}
-    /usr/local/opt/llvm/bin
     /usr/local/opt/coreutils/libexec/gnubin
     /opt/X11/bin
     {{ end -}}
     "$path[@]"
 )
+
+export PATH
 {{ if eq .chezmoi.os "darwin" -}}
 
 # macOS workaround for `path_helper` in /etc/zprofile
