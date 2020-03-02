@@ -87,11 +87,11 @@ install_oh_my_zsh() {
 }
 
 main() {
-    printf "Checking Dependencies... "
-    install_deps
-    printf "Done.\n\n"
-
     if [[ -n $PACKAGES ]]; then
+        printf "Checking Brew dependencies... "
+        install_deps
+        printf "Done.\n\n"
+
         echo "Installing Brew packages"
         echo "------------------------"
         install_packages check_package_cmd install_cmd "${PACKAGES[@]}"
