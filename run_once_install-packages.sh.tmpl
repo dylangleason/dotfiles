@@ -45,7 +45,6 @@ check_build_essential() {
 
 install_deps() {
     check_build_essential
-    . ~/.local/share/chezmoi/install_packages/linux.sh
     check_cmd brew
     if [ $? -ne 0 ]; then
         yes '' | sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"
@@ -57,7 +56,6 @@ install_deps() {
 {{ else if eq .chezmoi.os "darwin" -}}
 # Set default packages if non specified
 install_deps() {
-    . ~/.local/share/chezmoi/install_packages/macos.sh
     check_cmd_and_fail xcode-select
     xcode-select -p > /dev/null 2>&1
     if [ $? -ne 0 ]; then
