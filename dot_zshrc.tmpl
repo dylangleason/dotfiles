@@ -80,5 +80,5 @@ alias la='ls -a'
 {{ if eq .chezmoi.os "linux" -}}
 [[ -f ~/.linuxbrew/bin/brew ]] && eval $(~/.linuxbrew/bin/brew shellenv)
 {{ end -}}
-which pyenv && eval "$(pyenv init - zsh --no-rehash)"
-which rbenv && eval "$(rbenv init - zsh --no-rehash)"
+which pyenv > /dev/null 2>&1 && eval "$(pyenv init - zsh --no-rehash)"
+which rbenv > /dev/null 2>&1 && eval "$(rbenv init - zsh --no-rehash)"
