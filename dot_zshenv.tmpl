@@ -1,19 +1,26 @@
 typeset -U PATH path
 
+find_bin_paths() {
+    find "$1" -maxdepth 2 -type d -regex '^.*bin$' 2>/dev/null
+}
+
 path=(
-    ~/.bin
-    ~/.go/bin
-    {{ if eq .chezmoi.os "linux" -}}
-    ~/.linuxbrew/bin
-    {{ end -}}
-    ~/.local/bin
-    ~/bin
+    $(find_bin_paths ~)
     {{ if eq .chezmoi.os "darwin" -}}
-    /usr/local/opt/coreutils/libexec/gnubin
-    /opt/X11/bin
+    $(find_bin_paths /usr/local/opt)
+    $(find_bin_paths /usr/local)
     {{ end -}}
+    $(find_bin_paths /opt)
     "$path[@]"
 )
+
+unset -f find_bin_paths
+{{ if eq .chezmoi.os "darwin" -}}
+
+if [[ -d /usr/local/opt/coreutils/libexec/gnubin ]]; then
+    path=(/usr/local/opt/coreutils/libexec/gnubin "$path[@]")
+fi
+{{ end -}}
 
 export PATH
 {{ if eq .chezmoi.os "darwin" -}}
