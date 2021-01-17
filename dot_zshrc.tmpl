@@ -46,7 +46,7 @@ export UPDATE_ZSH_DAYS=30
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(git docker docker-compose pyenv)
 
 # User configuration
 
@@ -67,18 +67,7 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 # ls shortcuts
-alias emacs='emacs -nw'
-alias emacsc='emacsclient -nw'
-{{ if eq .chezmoi.os "linux" -}}
-alias ls='ls --color --group-directories-first -v'
-{{ else if eq .chezmoi.os "darwin" -}}
-alias ls='gls --color --group-directories-first'
-{{ end -}}
-alias ll='ls -hl'
-alias la='ls -a'
 
 {{ if eq .chezmoi.os "linux" -}}
 [[ -f ~/.linuxbrew/bin/brew ]] && eval $(~/.linuxbrew/bin/brew shellenv)
 {{ end -}}
-which pyenv > /dev/null 2>&1 && eval "$(pyenv init - zsh --no-rehash)"
-which rbenv > /dev/null 2>&1 && eval "$(rbenv init - zsh --no-rehash)"
