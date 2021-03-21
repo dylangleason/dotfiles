@@ -1,84 +1,28 @@
 #!/usr/bin/env bash
 
 check_cmd() {
-    which $1 > /dev/null 2>&1
+    command -v "$1" /dev/null 2>&1
 }
 
 check_cmd_and_fail() {
-    check_cmd $1
-    if [ $? -ne 0 ]; then
-        echo "Could not find dependency: $1."
-        exit 1
-    fi
-}
-
-install_packages() {
-    local check_cmd=$1
-    local install_cmd=$2
-    shift
-    shift
-    local packages=("$@")
-    local selected=()
-    for pkg in "${packages[@]}"; do
-        printf "Checking if \"$pkg\" is installed... "
-        $check_cmd $pkg
-        if [ $? -eq 0 ]; then
-            printf "marked for installation.\n"
-            selected+=($pkg)
-        else
-            printf "already installed.\n"
-        fi
-    done
-    if [ "${#selected[@]}" -gt 0 ]; then
-        $install_cmd "${selected[@]}"
-    fi
-}
-
-
-
-{{ if eq .chezmoi.os "linux" -}}
-check_build_essential() {
-    apt-cache policy build-essential | egrep -i 'installed: [0-9]+?(\.[0-9]+)' > /dev/null 2>&1
-    if [ $? -ne 0 ]; then
-        echo "build-essential is required."
+    if ! check_cmd "$1" ; then
+        >&2 echo "Could not find $1"
         exit 1
     fi
 }
 
 install_deps() {
-    check_build_essential
-    . ~/.local/share/chezmoi/install_packages/linux.sh
-    check_cmd brew
-    if [ $? -ne 0 ]; then
-        yes '' | sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"
-        test -d ~/.linuxbrew && eval $(~/.linuxbrew/bin/brew shellenv)
-        test -d /home/linuxbrew/.linuxbrew && eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
-        test -r ~/.zshrc && echo "eval \$($(brew --prefix)/bin/brew shellenv)" >> ~/.zshrc
+    {{ if eq .chezmoi.os "linux" -}}
+    if ! dpkg -s build-essential >/dev/null 2>&1 ; then
+        >&2 echo "Could not find build-essential"
+        exit 1
     fi
-}
-{{ else if eq .chezmoi.os "darwin" -}}
-install_deps() {
-    . ~/.local/share/chezmoi/install_packages/macos.sh
+    {{ else if eq .chezmoi.os "darwin" -}}
     check_cmd_and_fail xcode-select
-    xcode-select -p > /dev/null 2>&1
-    if [ $? -ne 0 ]; then
+    if xcode-select -p >/dev/null 2>&1 ; then
         xcode-select --install
     fi
-    check_cmd brew
-    if [ $? -ne 0 ]; then
-        echo | ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-    fi
-}
-{{ end -}}
-
-check_package_cmd() {
-    brew info $1 | grep -i 'not installed' > /dev/null 2>&1
-}
-
-install_cmd() {
-    check_cmd_and_fail brew
-    local packages=("$@")
-    brew install "${packages[@]}"
+    {{ end -}}
 }
 
 install_oh_my_zsh() {
@@ -89,22 +33,22 @@ install_oh_my_zsh() {
     fi
 }
 
-main() {
-    printf "Checking Dependencies... "
-    install_deps
-    printf "Done.\n\n"
-
-    echo "Installing Brew packages"
-    echo "------------------------"
-    install_packages check_package_cmd install_cmd "${PACKAGES[@]}"
-    echo ""
-
-    if [ ! -d ~/.oh-my-zsh ]; then
-        echo "Installing Oh-my-zsh"
-        echo "--------------------"
-        install_oh_my_zsh
-        echo ""
-    fi
+install_nix() {
+    cd "$(mktemp -d)"
+    curl -o install-nix-2.3.10 https://releases.nixos.org/nix/nix-2.3.10/install
+    curl -o install-nix-2.3.10.asc https://releases.nixos.org/nix/nix-2.3.10/install.asc
+    gpg --recv-keys ipv4.pool.sks-keyservers.net B541D55301270E0BCF15CA5D8170B4726D7198DE
+    gpg --verify ./install-nix-2.3.10.asc
+    sh ./install-nix-2.3.10
+    cd -
 }
 
-main
+install_deps
+
+if [ ! -d /nix ]; then
+    install_nix
+fi
+
+if [ ! -d ~/.oh-my-zsh ]; then
+    install_oh_my_zsh
+fi

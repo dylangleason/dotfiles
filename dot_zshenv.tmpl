@@ -31,8 +31,10 @@ export TERM=xterm-256color
 export ZSH=~/.oh-my-zsh
 
 if [[ -f ~/.env ]]; then
-    source ~/.env
+    . ~/.env
 fi
+
+if [ -e /home/dgleason/.nix-profile/etc/profile.d/nix.sh ]; then . /home/dgleason/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
 
 {{ if eq .chezmoi.os "darwin" -}}
 # macOS workaround for `path_helper` in /etc/zprofile
