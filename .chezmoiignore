@@ -1,2 +1,4 @@
+{{ if ne .chezmoi.os "linux" }}
+.config
+{{ end }}
 README.md
-install_packages
