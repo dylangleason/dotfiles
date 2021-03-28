@@ -1,4 +1,6 @@
 {{ if ne .chezmoi.os "linux" }}
-.config
+.config/i3
+.config/polybar
+.config/rofi
 {{ end }}
 README.md
