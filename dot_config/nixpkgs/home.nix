@@ -48,7 +48,7 @@ in
   programs = {
     emacs.enable = true;
     feh.enable = isLinux;
-    home-manager.enable = isLinux;
+    home-manager.enable = true;
 
     rofi = {
       enable = isLinux;
