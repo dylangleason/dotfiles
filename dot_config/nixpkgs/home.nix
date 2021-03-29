@@ -52,22 +52,25 @@ in
 
     rofi = {
       enable = isLinux;
-      font = "JetBrainsMono 13";
+      font = "JetBrainsMono Nerd Font 13";
       extraConfig = {
-        drun-icon-theme = "ePapirus";
-        show-icons = true;
+        color-active = "#81a2be,#81a2be,#282a2e,#b294bb,#373b41";
+        color-normal = "#373b41,#c5c8c6,#282a2e,#c5c8c6,#373b41";
+        color-window = "#373b41,#969896,#969896";
+        combi-modi = "window,run";
+        modi = "combi";
+        show = "combi";
         sort = true;
       };
     };
 
     termite = {
       enable = isLinux;
-      font = "JetBrains Mono 13";
+      font = "JetBrainsMono Nerd Font 13";
     };
   };
 
   xsession.windowManager.i3 = {
     enable = isLinux;
-    config = builtins.readFile "${homedir}/.config/i3/config";
   };
 }
