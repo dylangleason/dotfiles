@@ -18,7 +18,7 @@ let
     libtool
     lispPackages.quicklisp
     lsd
-    #nerdfonts
+    nerdfonts
     oh-my-zsh
     python3
     ruby
