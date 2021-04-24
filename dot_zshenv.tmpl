@@ -18,13 +18,6 @@ manpath=(
     $manpath
 )
 
-export -TU INFOPATH infopath
-infopath=(
-    /usr/local/share/info
-    /usr/share/info
-    $infopath
-)
-
 {{ if eq .chezmoi.os "linux" -}}
 export -TU XDG_DATA_DIRS xdg_data_dirs
 xdg_data_dirs=(
@@ -45,8 +38,8 @@ if [[ -f ~/.env ]]; then
     . ~/.env
 fi
 
-if [ -e /home/dgleason/.nix-profile/etc/profile.d/nix.sh ]; then
-    . /home/dgleason/.nix-profile/etc/profile.d/nix.sh;
+if [ -e ~/.nix-profile/etc/profile.d/nix.sh ]; then
+    . ~/.nix-profile/etc/profile.d/nix.sh;
 fi
 
 {{ if eq .chezmoi.os "darwin" -}}
