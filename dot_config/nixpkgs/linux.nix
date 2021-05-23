@@ -8,6 +8,8 @@ in
 
   home.packages = with pkgs; [
     freetype
+    glibc
+    glibcLocales
     lxappearance
     lxqt.screengrab
     lxrandr

@@ -12,11 +12,12 @@
     packages =  with pkgs; [
       ag
       chezmoi
+      chicken
+      clojure
       cmake
       duf
       font-awesome
       gh
-      glibc
       go
       guile
       ipcalc
@@ -36,7 +37,10 @@
 
   programs = {
     bat.enable = true;
-    emacs.enable = true;
+    emacs = {
+      enable = true;
+      extraPackages = epkgs: [epkgs.vterm];
+    };
     home-manager.enable = true;
     htop.enable = true;
   };

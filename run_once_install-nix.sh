@@ -3,7 +3,11 @@
 set -eu -o pipefail
 
 if [[ ! -d /nix/store ]]; then
-    curl -L https://nixos.org/nix/install | sh
+    {{ if eq .chezmoi.os "darwin" -}}
+    sh <(curl -L https://nixos.org/nix/install) --darwin-use-unencrypted-nix-store-volume
+    {{ else -}}
+    sh <(curl -L https://nixos.org/nix/install)
+    {{ end -}}
 fi
 
 if [[ ! -e ~/.nix-profile/bin/home-manager ]]; then
