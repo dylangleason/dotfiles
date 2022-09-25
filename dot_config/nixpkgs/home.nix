@@ -6,30 +6,25 @@
             else [];
 
   home = {
-    stateVersion = "21.05";
+    stateVersion = "22.05";
     username = builtins.getEnv "USER";
     homeDirectory = builtins.getEnv "HOME";
     packages =  with pkgs; [
-      ag
       chezmoi
-      chicken
       clojure
-      cmake
       duf
       font-awesome
       gh
       go
-      guile
       ipcalc
       jq
-      libtool
-      lispPackages.quicklisp
       lsd
+      neofetch
       nerdfonts
       oh-my-zsh
+      pass
       python3
-      ruby
-      sbcl
+      silver-searcher
       tmux
       tree
     ];
