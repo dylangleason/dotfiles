@@ -6,4 +6,5 @@ fi
 
 alias ll='ls -l'
 alias la='ls -a'
-alias emacs='emacs -nw'
+alias e='emacs -nw'
+alias ec='emacsclient -a "" -t'

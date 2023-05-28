@@ -10,4 +10,4 @@ My dotfiles rely upon [chezmoi](https://github.com/twpayne/chezmoi), so [install
 
 Use `chezmoi` to clone, initialize and apply the dotfiles all in one go:
 
-    sh -c "$(curl -fsLS git.io/chezmoi)" -- init --apply dylangleason
+    sh -c "$(curl -fsLS git.io/chezmoi)" -- init --apply "${GITHUB_USERNAME:-dylangleason}"
