@@ -42,17 +42,6 @@
 
 (global-set-key (kbd "C-c C-c") 'comment-or-uncomment-region)
 
-;;; Email configuration
-
-(require 'mu4e)
-(setq mu4e-get-mail-command "mbsync -a")
-
-(setq message-send-mail-function 'smtpmail-send-it
-      smtpmail-default-smtp-server "smtp.gmail.com"
-      smtpmail-local-domain "gmail.com"
-      smtpmail-smtp-server "smtp.gmail.com"
-      smtpmail-smtp-service 587)
-
 ;;; Initialize packages
 
 (package-initialize)
