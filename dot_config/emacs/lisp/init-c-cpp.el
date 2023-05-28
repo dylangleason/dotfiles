@@ -20,7 +20,8 @@
 
 (defun my-d-mode-hook ()
   (c-set-style "my-d-style")
-  (company-dcd-mode))
+  (company-dcd-mode)
+  (setq-local compile-command "dmd"))
 
 (use-package c-mode
   :ensure nil
