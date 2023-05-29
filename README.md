@@ -4,7 +4,7 @@ My dotfiles.
 
 ## Prerequisites
 
-My dotfiles rely upon [chezmoi](https://github.com/twpayne/chezmoi), so [install it](https://github.com/twpayne/chezmoi/blob/master/docs/INSTALL.md#chezmoi-install-guide) before proceeding to the installation step.
+My dotfiles rely upon [chezmoi](https://www.chezmoi.io/), so [install it](https://www.chezmoi.io/install/) before proceeding to the installation step.
 
 ## Installation
 
