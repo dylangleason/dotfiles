@@ -25,7 +25,7 @@
   (advice-add 'rubocop-build-command :override #'my-rubocop-build-command))
 
 (use-package ruby-mode
-  :ensure nil
+  :straight nil
   :mode "\\(?:\\.rb\\|ru\\|rake\\|thor\\|jbuilder\\|gemspec\\|podspec\\|/\\(?:Gem\\|Rake|Cap\\|Thor\\|Vagrant\\|Guard\\|Pod\\)file\\)\\'"
   :hook (ruby-mode . my-ruby-mode-hook)
   :interpreter "ruby")

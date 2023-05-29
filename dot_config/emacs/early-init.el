@@ -9,3 +9,7 @@
     (funcall mode -1)))
 
 (setq inhibit-startup-message t)
+
+;; disable package.el since we'll be using straight.el
+(when (version<= "26" emacs-version)
+  (setq package-enable-at-startup nil))

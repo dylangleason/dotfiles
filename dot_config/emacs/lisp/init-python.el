@@ -16,7 +16,7 @@
 		   (lsp-deferred))))
 
 (use-package python
-  :ensure nil
+  :straight nil
   :hook
   (python-mode . flycheck-mode)
   :init

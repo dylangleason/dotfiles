@@ -1,4 +1,0 @@
-[".config/emacs/site-lisp/mood-line"]
-    type = "git-repo"
-    url = "https://gitlab.com/dylangleason/mood-line.git"
-    refreshPeriod = "168h"

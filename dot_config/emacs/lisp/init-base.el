@@ -15,7 +15,6 @@
    ("C-c C-;" . embark-dwim)))
 
 (use-package evil
-  :after undo-tree
   :demand t
   :init
   (setq evil-want-integration t
@@ -63,8 +62,6 @@
   (marginalia-mode))
 
 (use-package mood-line
-  :load-path "site-lisp/mood-line"
-  :demand t
   :config
   (mood-line-mode))
 
@@ -90,7 +87,9 @@
 (use-package projectile-ripgrep
   :after (projectile ripgrep))
 
-(use-package rainbow-delimiters)
+(use-package rainbow-delimiters
+  :hook
+  (prog-mode . rainbow-delimiters-mode))
 
 (use-package restclient
   :demand t
@@ -98,6 +97,15 @@
   (add-to-list 'auto-mode-alist '("\\.http\\'" . restclient-mode)))
 
 (use-package ripgrep)
+
+(use-package tree-sitter
+  :hook
+  (tree-sitter-after-on . tree-sitter-hl-mode)
+  :init
+  (global-tree-sitter-mode))
+
+(use-package tree-sitter-langs
+  :after (tree-sitter))
 
 (use-package undo-tree
   :init
@@ -109,8 +117,11 @@
 
 (use-package vertico-buffer
   :after vertico
-  :ensure nil
+  :straight nil
   :init
+  ;; NOTE: straight does not automatically export this extension into
+  ;; the main repo directory. Must manually copy from
+  ;; `extensions/vertico-buffer.el` to parent repo directory.
   (vertico-buffer-mode))
 
 (use-package vterm

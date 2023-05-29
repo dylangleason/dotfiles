@@ -1,7 +1,6 @@
 ;;; -*- lexical-binding: t -*-
 
 (defun my-go-mode-hook ()
-  (rainbow-delimiters-mode-enable)
   (flycheck-mode)
   (setq lsp-go-env '((GOFLAGS . "--tags=wireinject")))
   (lsp-deferred))
@@ -13,7 +12,7 @@
 	flycheck-gometalinter-vendor t
 	flycheck-gometalinter-enable-linters '("golint"))
   :config
-  (flycheck-go-metalinter-setup))
+  (flycheck-gometalinter-setup))
 
 (use-package go-mode
   :hook
