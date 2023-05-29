@@ -1,39 +1,35 @@
 ;;; -*- lexical-binding: t -*-
 
-(defun my-lisp-mode-common-hook ()
-  (enable-paredit-mode)
-  (rainbow-delimiters-mode-enable))
-
 (use-package cider
   :hook
-  ((cider-mode . my-lisp-mode-common-hook)
+  ((cider-mode . enable-paredit-mode)
    (cider-repl-mode . (lambda ()
-			(my-lisp-mode-common-hook)
+			(enable-paredit-mode)
 			(local-set-key (kbd "C-c C-b") 'cider-repl-clear-buffer))))
   :config
   (add-to-list 'evil-emacs-state-modes 'cider-repl-mode)
   (add-to-list 'evil-emacs-state-modes 'cider-stacktrace-mode))
 
 (use-package clojure-mode
-  :hook (clojure-mode . my-lisp-mode-common-hook))
+  :hook (clojure-mode . enable-paredit-mode))
 
 (use-package emacs-lisp-mode
-  :ensure nil
-  :hook (emacs-lisp-mode . my-lisp-mode-common-hook))
+  :straight nil
+  :hook (emacs-lisp-mode . enable-paredit-mode))
 
 (use-package geiser-guile
-  :hook (geiser-repl-mode . my-lisp-mode-common-hook))
+  :hook (geiser-repl-mode . enable-paredit-mode))
 
 (use-package paredit
   :bind (:map paredit-mode-map ("RET" . nil)))
 
 (use-package scheme-mode
-  :ensure nil
-  :hook (scheme-mode . my-lisp-mode-common-hook))
+  :straight nil
+  :hook (scheme-mode . enable-paredit-mode))
 
 (use-package slime
-  :hook ((slime-mode . my-lisp-mode-common-hook)
-         (slime-repl-mode . my-lisp-mode-common-hook))
+  :hook ((slime-mode . enable-paredit-mode)
+         (slime-repl-mode . enable-paredit-mode))
   :init
   (setq inferior-lisp-program "sbcl"
         slime-protocol-version 'ignore)

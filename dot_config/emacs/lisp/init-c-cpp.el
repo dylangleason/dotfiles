@@ -24,11 +24,11 @@
   (setq-local compile-command "dmd"))
 
 (use-package c-mode
-  :ensure nil
+  :straight nil
   :hook (c-mode . my-c-mode-hook))
 
 (use-package c++-mode
-  :ensure nil
+  :straight nil
   :hook (c++-mode . my-c++-mode-hook))
 
 (use-package company-dcd
