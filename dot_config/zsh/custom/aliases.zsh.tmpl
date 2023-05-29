@@ -1,0 +1,10 @@
+if command -v lsd > /dev/null; then
+    alias ls='lsd --group-directories-first'
+{{ if eq .chezmoi.os "linux" }}else
+    alias ls='ls -h --group-directories-first'
+{{ end }}fi
+
+alias ll='ls -l'
+alias la='ls -a'
+alias e='emacs -nw'
+alias ec='emacsclient -a "" -t'

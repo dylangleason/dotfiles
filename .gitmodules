@@ -1,3 +1,0 @@
-[submodule "dot_emacs.d"]
-	path = dot_emacs.d
-	url = git@github.com:dylangleason/.emacs.d.git

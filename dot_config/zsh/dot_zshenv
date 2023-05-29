@@ -1,0 +1,27 @@
+typeset -U manpath path
+
+export GOPATH="$HOME/.go"
+export GOBIN="$GOPATH/bin"
+export EDITOR='emacs -nw'
+export LANG=en_US.UTF-8
+export TERM=xterm-256color
+export VISUAL=emacs
+
+manpath=(
+    /usr/local/share/man
+    /usr/share/man
+    $manpath
+)
+
+path=(
+    ~/.go/bin
+    ~/.local/bin
+    /opt/bin
+    /usr/local/bin
+    /usr/local/sbin
+    /usr/bin
+    /usr/sbin
+    /bin
+    /sbin
+    $path
+)
