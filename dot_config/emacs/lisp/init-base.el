@@ -55,6 +55,10 @@
   :config
   (define-key lsp-mode-map (kbd "C-c l") lsp-command-map))
 
+(use-package lsp-ui
+  :config
+  (lsp-ui-peek-enable t))
+
 (use-package magit)
 
 (use-package marginalia
@@ -64,6 +68,12 @@
 (use-package mood-line
   :config
   (mood-line-mode))
+
+(use-package neotree
+  :bind
+  (("C-c n" . neotree))
+  :config
+  (add-to-list 'evil-emacs-state-modes 'neotree-mode))
 
 (use-package orderless
   :custom

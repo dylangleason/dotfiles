@@ -22,6 +22,8 @@
   :init
   (setq indent-tabs-mode nil))
 
+(use-package json-mode)
+
 (use-package web-mode
   :mode "\\.html?\\'"
   :config
