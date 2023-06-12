@@ -2,6 +2,7 @@
 
 (defun my-c-mode-common-hook ()
   (setq-local indent-tabs-mode nil)
+  (c-set-offset 'case-label '+)
   (flycheck-mode)
   (lsp-deferred))
 

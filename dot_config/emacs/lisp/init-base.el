@@ -6,6 +6,9 @@
 (use-package elfeed
   :bind ("C-x w" . elfeed))
 
+(use-package dap-mode
+  :bind ("C-c g" . dap-hydra))
+
 (use-package elfeed-protocol
   :after elfeed)
 
@@ -30,6 +33,7 @@
 		  Man-mode
 		  messages-buffer-mode
 		  minibuffer-mode
+		  process-menu-mode
 		  xref--xref-buffer-mode))
     (add-to-list 'evil-emacs-state-modes mode)))
 
@@ -56,8 +60,11 @@
   (define-key lsp-mode-map (kbd "C-c l") lsp-command-map))
 
 (use-package lsp-ui
+  :bind
+  (:map prog-mode-map ("M-j" . lsp-ui-imenu))
   :config
-  (lsp-ui-peek-enable t))
+  (lsp-ui-peek-enable t)
+  (add-to-list 'evil-emacs-state-modes 'lsp-ui-imenu-mode))
 
 (use-package magit)
 
@@ -68,12 +75,6 @@
 (use-package mood-line
   :config
   (mood-line-mode))
-
-(use-package neotree
-  :bind
-  (("C-c n" . neotree))
-  :config
-  (add-to-list 'evil-emacs-state-modes 'neotree-mode))
 
 (use-package orderless
   :custom
@@ -107,6 +108,14 @@
   (add-to-list 'auto-mode-alist '("\\.http\\'" . restclient-mode)))
 
 (use-package ripgrep)
+
+(use-package treemacs
+  :bind
+  (("C-c n" . treemacs))
+  :config
+  (add-to-list 'evil-emacs-state-modes 'treemacs-mode))
+
+(use-package treemacs-projectile)
 
 (use-package tree-sitter
   :hook

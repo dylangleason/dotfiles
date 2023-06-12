@@ -18,7 +18,11 @@
   :hook
   ((go-mode . my-go-mode-hook)
    (before-save . lsp-format-buffer)
-   (before-save . lsp-organize-imports)))
+   (before-save . lsp-organize-imports))
+  :init
+  (setq compile-command "go build -gcflags=\"all=-N -l\" .")
+  :config
+  (require 'dap-dlv-go))
 
 (use-package gotest
   :after (go-mode))
