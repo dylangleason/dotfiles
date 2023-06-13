@@ -3,6 +3,15 @@
 (use-package company
   :hook (after-init . global-company-mode))
 
+(use-package consult
+  :bind
+  (("C-c C-s" . consult-line)
+   ("C-c C-r" . consult-ripgrep)))
+
+(use-package consult-projectile
+  :bind
+  (("C-c p f" . consult-projectile-find-file)))
+
 (use-package elfeed
   :bind ("C-x w" . elfeed))
 
