@@ -5,12 +5,16 @@
 
 (use-package consult
   :bind
-  (("C-c C-s" . consult-line)
-   ("C-c C-r" . consult-ripgrep)))
+  (:map global-map
+	("C-s" . consult-line)
+	("C-c s" . consult-ripgrep)))
 
 (use-package consult-projectile
   :bind
-  (("C-c p f" . consult-projectile-find-file)))
+  (:map projectile-mode-map
+	("C-c p f" . consult-projectile-find-file)
+	("C-c p b" . consult-projectile-switch-to-buffer)
+	("C-c p p" . consult-projectile-switch-project)))
 
 (use-package elfeed
   :bind ("C-x w" . elfeed))
