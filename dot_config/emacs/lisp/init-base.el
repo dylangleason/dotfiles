@@ -9,18 +9,21 @@
 	("C-s" . consult-line)
 	("C-c s" . consult-ripgrep)))
 
-(use-package consult-projectile
-  :bind
-  (:map projectile-mode-map
-	("C-c p f" . consult-projectile-find-file)
-	("C-c p b" . consult-projectile-switch-to-buffer)
-	("C-c p p" . consult-projectile-switch-project)))
+(use-package consult-lsp
+  :hook
+  (lsp-mode . (lambda () (local-set-key (kbd "C-c l f") 'consult-lsp-file-symbols))))
 
-(use-package elfeed
-  :bind ("C-x w" . elfeed))
+(use-package consult-projectile
+  :config
+  (define-key projectile-mode-map (kbd "C-c p f") 'consult-projectile-find-file)
+  (define-key projectile-mode-map (kbd "C-c p p") 'consult-projectile-switch-project)
+  (define-key projectile-mode-map (kbd "C-c p b") 'consult-projectile-switch-to-buffer))
 
 (use-package dap-mode
   :bind ("C-c g" . dap-hydra))
+
+(use-package elfeed
+  :bind ("C-x w" . elfeed))
 
 (use-package elfeed-protocol
   :after elfeed)
