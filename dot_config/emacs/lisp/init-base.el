@@ -7,7 +7,7 @@
   :bind
   (:map global-map
 	("C-s" . consult-line)
-	("C-c s" . consult-ripgrep)))
+	("C-c r" . consult-ripgrep)))
 
 (use-package consult-lsp
   :hook
@@ -75,9 +75,11 @@
   :config
   (define-key lsp-mode-map (kbd "C-c l") lsp-command-map))
 
+(use-package lsp-treemacs
+  :hook
+  (lsp-mode . (lambda () (local-set-key (kbd "C-c l n") 'lsp-treemacs-symbols))))
+
 (use-package lsp-ui
-  :bind
-  (:map prog-mode-map ("M-j" . lsp-ui-imenu))
   :config
   (lsp-ui-peek-enable t)
   (add-to-list 'evil-emacs-state-modes 'lsp-ui-imenu-mode))
