@@ -3,6 +3,7 @@
 (defun my-go-mode-hook ()
   (flycheck-mode)
   (setq lsp-go-env '((GOFLAGS . "--tags=wireinject")))
+  (setq-local compile-command "go build -gcflags=\"all=-N -l\" .")
   (lsp-deferred))
 
 (use-package flycheck-gometalinter
@@ -19,8 +20,6 @@
   ((go-mode . my-go-mode-hook)
    (before-save . lsp-format-buffer)
    (before-save . lsp-organize-imports))
-  :init
-  (setq compile-command "go build -gcflags=\"all=-N -l\" .")
   :config
   (require 'dap-dlv-go))
 
