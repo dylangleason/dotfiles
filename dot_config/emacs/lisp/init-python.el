@@ -1,29 +1,32 @@
 ;;; -*- lexical-binding: t -*-
 
+(defun my-python-mode-hook ()
+  (setq-local blacken-mode t)
+  ;; (require 'lsp-pyright)
+  (flycheck-mode)
+  (lsp-deferred))
+
 (use-package blacken
-  :after (python)
-  :hook
-  (python-mode . (lambda () (setq-local blacken-mode t))))
+  :after (python-ts-mode))
 
 (use-package hy-mode
   :hook (hy-mode . my-lisp-mode-common-hook)
-  :mode ("\\.hy\\'" . hy-mode))
+  :mode "\\.hy\\'")
 
-(use-package lsp-pyright
-  :hook
-  (python-mode . (lambda ()
-		   (require 'lsp-pyright)
-		   (lsp-deferred))))
+(use-package lsp-pyright)
 
-(use-package python
+(my-treesit-add-grammar 'python "https://github.com/tree-sitter/tree-sitter-python")
+
+(use-package python-ts-mode
   :straight nil
+  :mode "\\.py\\'"
   :hook
-  (python-mode . flycheck-mode)
+  (python-ts-mode . my-python-mode-hook)
   :init
   (setq python-shell-interpreter "ipython"
 	python-shell-interpreter-args "--simple-prompt -c exec('__import__(\\'readline\\')') -i"))
 
 (use-package python-pytest
-  :after (python))
+  :after (python-ts-mode))
 
 (provide 'init-python)

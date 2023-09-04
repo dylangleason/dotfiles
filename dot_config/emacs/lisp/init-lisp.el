@@ -1,6 +1,7 @@
 ;;; -*- lexical-binding: t -*-
 
 (use-package cider
+  :defines enable-paredit-mode
   :hook
   ((cider-mode . enable-paredit-mode)
    (cider-repl-mode . (lambda ()
@@ -9,6 +10,9 @@
   :config
   (add-to-list 'evil-emacs-state-modes 'cider-repl-mode)
   (add-to-list 'evil-emacs-state-modes 'cider-stacktrace-mode))
+
+(use-package paredit
+  :bind (:map paredit-mode-map ("RET" . nil)))
 
 (use-package clojure-mode
   :hook (clojure-mode . enable-paredit-mode))
@@ -19,9 +23,6 @@
 
 (use-package geiser-guile
   :hook (geiser-repl-mode . enable-paredit-mode))
-
-(use-package paredit
-  :bind (:map paredit-mode-map ("RET" . nil)))
 
 (use-package scheme-mode
   :straight nil

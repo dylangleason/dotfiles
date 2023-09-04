@@ -15,9 +15,13 @@
   :config
   (flycheck-gometalinter-setup))
 
-(use-package go-mode
+(my-treesit-add-grammar 'go "https://github.com/tree-sitter/tree-sitter-go")
+
+(use-package go-ts-mode
+  :mode "\\.go\\'"
+  :straight nil
   :hook
-  ((go-mode . my-go-mode-hook)
+  ((go-ts-mode . my-go-mode-hook)
    (before-save . lsp-format-buffer)
    (before-save . lsp-organize-imports))
   :config

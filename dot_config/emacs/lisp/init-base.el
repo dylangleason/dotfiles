@@ -1,5 +1,11 @@
 ;;; -*- lexical-binding: t -*-
 
+(use-package all-the-icons)
+
+(use-package all-the-icons-dired
+  :hook
+  (dired-mode . all-the-icons-dired-mode))
+
 (use-package company
   :hook (after-init . global-company-mode))
 
@@ -11,13 +17,13 @@
 
 (use-package consult-lsp
   :hook
-  (lsp-mode . (lambda () (local-set-key (kbd "C-c l f") 'consult-lsp-file-symbols))))
+  (lsp-mode . (lambda () (local-set-key (kbd "C-c l f") #'consult-lsp-file-symbols))))
 
 (use-package consult-projectile
   :config
-  (define-key projectile-mode-map (kbd "C-c p f") 'consult-projectile-find-file)
-  (define-key projectile-mode-map (kbd "C-c p p") 'consult-projectile-switch-project)
-  (define-key projectile-mode-map (kbd "C-c p b") 'consult-projectile-switch-to-buffer))
+  (define-key projectile-mode-map (kbd "C-c p f") #'consult-projectile-find-file)
+  (define-key projectile-mode-map (kbd "C-c p p") #'consult-projectile-switch-project)
+  (define-key projectile-mode-map (kbd "C-c p b") #'consult-projectile-switch-to-buffer))
 
 (use-package dap-mode
   :bind ("C-c g" . dap-hydra))
@@ -77,7 +83,7 @@
 
 (use-package lsp-treemacs
   :hook
-  (lsp-mode . (lambda () (local-set-key (kbd "C-c l n") 'lsp-treemacs-symbols))))
+  (lsp-mode . (lambda () (local-set-key (kbd "C-c l n") #'lsp-treemacs-symbols))))
 
 (use-package lsp-ui
   :config
@@ -127,6 +133,10 @@
 
 (use-package ripgrep)
 
+(use-package sh-mode
+  :straight nil
+  :hook (sh-mode . flycheck-mode))
+
 (use-package treemacs
   :bind
   (("C-c n" . treemacs))
@@ -136,16 +146,20 @@
 (use-package treemacs-projectile)
 
 (use-package tree-sitter
+  :if (version< emacs-version "29")
   :hook
   (tree-sitter-after-on . tree-sitter-hl-mode)
   :init
   (global-tree-sitter-mode))
 
 (use-package tree-sitter-langs
-  :after (tree-sitter))
+  :if (version< emacs-version "29"))
 
 (use-package undo-tree
   :init
+  (setq undo-tree-history-directory-alist
+      `(("." . ,(concat user-emacs-directory "undo-tree"))))
+  :config
   (global-undo-tree-mode 1))
 
 (use-package vertico
@@ -167,5 +181,11 @@
   (add-to-list 'evil-emacs-state-modes 'vterm-mode))
 
 (use-package yaml-mode)
+
+(use-package yasnippet
+  :config
+  (yas-global-mode))
+
+(use-package yasnippet-snippets)
 
 (provide 'init-base)

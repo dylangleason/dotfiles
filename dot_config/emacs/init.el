@@ -13,10 +13,10 @@
   (load (concat user-emacs-directory) "early-init"))
 
 (unless (version< emacs-version "26")
-  (add-hook 'prog-mode-hook 'my-line-numbers-mode))
+  (add-hook 'prog-mode-hook #'my-line-numbers-mode))
 
 (unless (display-graphic-p (selected-frame))
-  (add-hook 'window-setup-hook 'transparency))
+  (add-hook 'window-setup-hook #'transparency))
 
 (with-eval-after-load 'package
   (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/")))
@@ -42,6 +42,47 @@
 
 (global-set-key (kbd "C-c C-c") 'comment-or-uncomment-region)
 
+;;; dired sorting. see https://www.emacswiki.org/emacs/DiredSortDirectoriesFirst
+
+(defun my-dired-sort ()
+  "Sort dired listings with directories first."
+  (save-excursion
+    (let (buffer-read-only)
+      (forward-line 2) ;; beyond dir. header
+      (sort-regexp-fields t "^.*$" "[ ]*." (point) (point-max)))
+    (set-buffer-modified-p nil)))
+
+(defadvice dired-readin
+  (after dired-after-updating-hook first () activate)
+  "Sort dired listings with directories first before adding marks."
+  (my-dired-sort))
+
+;;; ediff settings
+
+(setq ediff-diff-options "-w"
+      ediff-split-window-function #'split-window-horizontally
+      ediff-window-setup-function #'ediff-setup-windows-plain)
+
+(defun my-command-line-diff (switch)
+  (let ((file1 (pop command-line-args-left))
+	(file2 (pop command-line-args-left)))
+    (ediff file1 file2)))
+
+;; usage: emacs -diff file1 file2
+(add-to-list 'command-switch-alist '("diff" . my-command-line-diff))
+
+;;; add tree-sitter AST shared object files to the load path
+
+(defvar treesit-language-source-alist '())
+
+(add-to-list 'load-path (concat user-emacs-directory "tree-sitter"))
+
+(defun my-treesit-add-grammar (grammar src)
+  "Add a treesitter language grammar given GRAMMAR and SRC."
+  (add-to-list 'treesit-language-source-alist (list grammar src))
+  (unless (treesit-language-available-p grammar)
+    (treesit-install-language-grammar grammar)))
+
 ;;; Manage packages using straight.el instead of package.el
 
 (defvar bootstrap-version)
@@ -62,13 +103,12 @@
 
 ;;; Require additional elisp packages in the lisp directory
 
-(add-to-list 'load-path (concat user-emacs-directory "lisp"))
+(defconst my-elisp-dir (concat user-emacs-directory "lisp"))
 
-(cl-loop for file in (directory-files (concat user-emacs-directory "lisp"))
+(add-to-list 'load-path my-elisp-dir)
+(cl-loop for file in (directory-files my-elisp-dir)
 	 and prev = nil then file
 	 do (let ((curr (file-name-sans-extension file)))
-	      (unless (or (string-equal curr ".")
-			  (string-equal curr "..")
-			  (string-suffix-p "~undo-tree~" file)
+	      (unless (or (not (string-match-p "\\.elc?$" file))
 			  (string-equal curr (file-name-sans-extension prev)))
 		(require (intern curr)))))
