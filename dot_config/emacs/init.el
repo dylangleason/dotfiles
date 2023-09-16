@@ -36,14 +36,25 @@
 (setq custom-file (concat user-emacs-directory "custom.el"))
 (load custom-file t)
 
+(setq history-length 25)
+(savehist-mode 1)
+(save-place-mode 1)
+
+(setq use-dialog-box nil)
+
+(global-auto-revert-mode 1)
 (global-prettify-symbols-mode 1)
 (prefer-coding-system 'utf-8)
-(put 'dired-find-alternate-file 'disabled nil)
+
+(recentf-mode 1)
 
 (global-set-key (kbd "C-c C-c") 'comment-or-uncomment-region)
 
-;;; dired sorting. see https://www.emacswiki.org/emacs/DiredSortDirectoriesFirst
+;;; dired settings
 
+(put 'dired-find-alternate-file 'disabled nil)
+
+;; Sorting. See https://www.emacswiki.org/emacs/DiredSortDirectoriesFirst
 (defun my-dired-sort ()
   "Sort dired listings with directories first."
   (save-excursion

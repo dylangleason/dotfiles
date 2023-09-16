@@ -13,7 +13,8 @@
   :bind
   (:map global-map
 	("C-s" . consult-line)
-	("C-c r" . consult-ripgrep)))
+	("C-c r" . consult-ripgrep)
+	("C-c e" . consult-recent-file)))
 
 (use-package consult-lsp
   :hook
@@ -23,7 +24,8 @@
   :config
   (define-key projectile-mode-map (kbd "C-c p f") #'consult-projectile-find-file)
   (define-key projectile-mode-map (kbd "C-c p p") #'consult-projectile-switch-project)
-  (define-key projectile-mode-map (kbd "C-c p b") #'consult-projectile-switch-to-buffer))
+  (define-key projectile-mode-map (kbd "C-c p b") #'consult-projectile-switch-to-buffer)
+  (define-key projectile-mode-map (kbd "C-c p e") #'consult-projectile-recentf))
 
 (use-package dap-mode
   :bind ("C-c g" . dap-hydra))
