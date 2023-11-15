@@ -15,6 +15,9 @@
 (unless (version< emacs-version "26")
   (add-hook 'prog-mode-hook #'my-line-numbers-mode))
 
+(unless (version< emacs-version "29")
+  (setq pixel-scroll-precision-mode t))
+
 (unless (display-graphic-p (selected-frame))
   (add-hook 'window-setup-hook #'transparency))
 

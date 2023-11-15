@@ -5,7 +5,8 @@
   (setq lsp-go-use-gofumpt t
 	lsp-go-env '((GOFLAGS . "--tags=wireinject")))
   (setq-local compile-command "go build -gcflags=\"all=-N -l\" .")
-  (lsp-deferred))
+  (lsp-deferred)
+  (copilot-mode))
 
 (defun my-go-before-save-hook ()
   (lsp-format-buffer)

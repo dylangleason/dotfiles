@@ -27,8 +27,13 @@
   (define-key projectile-mode-map (kbd "C-c p b") #'consult-projectile-switch-to-buffer)
   (define-key projectile-mode-map (kbd "C-c p e") #'consult-projectile-recentf))
 
+(use-package copilot
+  :straight (copilot :type git :host github :repo "zerolfx/copilot.el" :files ("dist" "*.el")))
+
 (use-package dap-mode
   :bind ("C-c g" . dap-hydra))
+
+(use-package editorconfig)
 
 (use-package elfeed
   :bind ("C-x w" . elfeed))
@@ -41,6 +46,9 @@
   (("C-c C-." . embark-act)
    ("C-c C-;" . embark-dwim)))
 
+(use-package embark-consult
+  :after (consult embark))
+
 (use-package evil
   :demand t
   :init
@@ -51,15 +59,18 @@
    (evil-emacs-state-exit . (lambda () (undo-tree-mode 1))))
   :config
   (evil-mode t)
-  (dolist (mode '(dired-mode
+  (dolist (mode '(comint-mode
+		  dired-mode
 		  help-mode
+		  inferior-emacs-lisp-mode
 		  Info-mode
 		  Man-mode
 		  messages-buffer-mode
 		  minibuffer-mode
 		  process-menu-mode
 		  xref--xref-buffer-mode))
-    (add-to-list 'evil-emacs-state-modes mode)))
+    (add-to-list 'evil-emacs-state-modes mode)
+    (evil-set-initial-state mode 'emacs)))
 
 (use-package exec-path-from-shell
   :if (memq window-system '(mac ns x))

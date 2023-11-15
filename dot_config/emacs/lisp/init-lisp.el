@@ -19,7 +19,9 @@
 
 (use-package emacs-lisp-mode
   :straight nil
-  :hook (emacs-lisp-mode . enable-paredit-mode))
+  :mode "\\(\\.el\\|Cask\\)\\'"
+  :hook ((emacs-lisp-mode . enable-paredit-mode)
+	 (ielm-mode . enable-paredit-mode)))
 
 (use-package geiser-guile
   :hook (geiser-repl-mode . enable-paredit-mode))
