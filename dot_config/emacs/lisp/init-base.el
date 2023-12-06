@@ -6,6 +6,18 @@
   :hook
   (dired-mode . all-the-icons-dired-mode))
 
+(use-package chezmoi
+  :straight
+  (chezmoi :files ("extensions/*.el" "*.el"))
+  :init
+  (require 'chezmoi-ediff)
+  :config
+  (advice-add #'chezmoi-ediff
+	      :before
+	      (lambda (file)
+		(setq age-default-identity nil
+		      age-default-recipient nil))))
+
 (use-package company
   :hook (after-init . global-company-mode))
 
@@ -28,12 +40,19 @@
   (define-key projectile-mode-map (kbd "C-c p e") #'consult-projectile-recentf))
 
 (use-package copilot
-  :straight (copilot :type git :host github :repo "zerolfx/copilot.el" :files ("dist" "*.el")))
+  :straight
+  (copilot :type git :host github :repo "zerolfx/copilot.el" :files ("dist" "*.el")))
 
 (use-package dap-mode
   :bind ("C-c g" . dap-hydra))
 
 (use-package editorconfig)
+
+(use-package ellama
+  :init
+  (require 'llm-ollama)
+  (setopt ellama-provider
+	  (make-llm-ollama :chat-model "llama2" :embedding-model "llama2")))
 
 (use-package elfeed
   :bind ("C-x w" . elfeed))
@@ -78,6 +97,11 @@
   (setq exec-path-from-shell-arguments nil
 	exec-path-from-shell-check-startup-files nil)
   :config
+  (dolist (var '("LSP_USE_PLISTS"
+		 "GPG_AGENT_INFO"
+		 "SSH_AUTH_SOCK"
+		 "SSH_AGENT_PID"))
+    (add-to-list 'exec-path-from-shell-variables var))
   (exec-path-from-shell-initialize)
   :demand t)
 
@@ -90,7 +114,9 @@
 
 (use-package lsp-mode
   :init
-  (setq read-process-output-max 8192)
+  (setq read-process-output-max (my-value-to-mb 1))
+  :hook
+  (lsp-mode . my-increase-gc-threshold)
   :config
   (define-key lsp-mode-map (kbd "C-c l") lsp-command-map))
 
@@ -177,15 +203,9 @@
 
 (use-package vertico
   :init
-  (vertico-mode))
-
-(use-package vertico-buffer
-  :after vertico
-  :straight nil
-  :init
-  ;; NOTE: straight does not automatically export this extension into
-  ;; the main repo directory. Must manually copy from
-  ;; `extensions/vertico-buffer.el` to parent repo directory.
+  (require 'vertico-buffer)
+  :config
+  (vertico-mode)
   (vertico-buffer-mode))
 
 (use-package vterm

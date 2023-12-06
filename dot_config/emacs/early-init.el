@@ -1,7 +1,14 @@
 ;;; -*- lexical-binding: t -*-
 
+(defun my-value-to-mb (value)
+  "Converts a value to megabytes"
+  (* value 1024 1024))
+
+(defun my-increase-gc-threshold ()
+  (setq gc-cons-threshold (my-value-to-mb 50)))
+
 (let ((tmp gc-cons-threshold))
-  (setq gc-cons-threshold (* 20 1024 1024))
+  (my-increase-gc-threshold)
   (add-hook 'emacs-startup-hook (lambda () (setq gc-cons-threshold tmp))))
 
 (dolist (mode '(menu-bar-mode scroll-bar-mode tool-bar-mode))

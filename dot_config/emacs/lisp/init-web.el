@@ -6,6 +6,8 @@
   (eval-after-load 'company-mode
     (add-to-list 'company-backends 'company-web-html)))
 
+(use-package impatient-mode)
+
 (use-package js-comint)
 
 (use-package js2-mode
@@ -23,6 +25,11 @@
   (setq indent-tabs-mode nil))
 
 (use-package json-mode)
+
+(use-package simple-httpd
+  :straight nil
+  :config
+  (setq httpd-port 7070))
 
 (use-package web-mode
   :mode "\\.html?\\'"
