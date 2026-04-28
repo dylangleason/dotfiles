@@ -270,10 +270,10 @@
 
   (defun my-toggle-projectile-tab-mode-advice ()
     (if tab-bar-mode
-	(advice-add #'projectile-switch-project-by-name
-		    :around #'my-projectile-switch-project-in-new-tab)
+        (advice-add #'projectile-switch-project-by-name
+                    :around #'my-projectile-switch-project-in-new-tab)
       (advice-remove #'projectile-switch-project-by-name
-		     #'my-projectile-switch-project-in-new-tab)))
+                     #'my-projectile-switch-project-in-new-tab)))
   :hook
   (tab-bar-mode . my-toggle-projectile-tab-mode-advice))
 
