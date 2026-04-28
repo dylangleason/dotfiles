@@ -31,10 +31,10 @@
   (require 'chezmoi-ediff)
   :config
   (advice-add #'chezmoi-ediff
-	      :before
-	      (lambda (file)
-		(setq age-default-identity nil
-		      age-default-recipient nil))))
+              :before
+              (lambda (file)
+                (setq age-default-identity nil
+                      age-default-recipient nil))))
 
 (use-package company
   :hook (after-init . global-company-mode))
@@ -42,9 +42,9 @@
 (use-package consult
   :bind
   (:map global-map
-	("C-s" . consult-line)
-	("C-c r" . consult-ripgrep)
-	("C-c e" . consult-recent-file)))
+        ("C-s" . consult-line)
+        ("C-c r" . consult-ripgrep)
+        ("C-c e" . consult-recent-file)))
 
 (use-package consult-lsp
   :hook (lsp-mode . my-lsp-bind-local-keymap)
@@ -65,8 +65,8 @@
 (use-package codex-cli
   :init
   (setq codex-cli-executable "codex"
-	codex-cli-terminal-backend 'vterm
-	codex-cli-side 'right))
+        codex-cli-terminal-backend 'vterm
+        codex-cli-side 'right))
 
 (use-package copilot
   :straight
@@ -80,11 +80,11 @@
 (use-package ellama
   :init
   (setopt ellama-auto-scroll t
-	  ellama-sessions-directory "~/Documents/ellama-sessions")
+          ellama-sessions-directory "~/Documents/ellama-sessions")
   (require 'llm-ollama)
   (setopt ellama-provider
-	  (make-llm-ollama :chat-model "gemma3:latest"
-			   :embedding-model "gemma3:latest")))
+          (make-llm-ollama :chat-model "gemma3:latest"
+                           :embedding-model "gemma3:latest")))
 
 (use-package elfeed
   :bind ("C-x w" . elfeed))
@@ -111,21 +111,21 @@
   :config
   (evil-mode t)
   (dolist (mode '(comint-mode
-		  dired-mode
-		  eww-mode
-		  help-mode
-		  inferior-emacs-lisp-mode
-		  inferior-python-mode
-		  Info-mode
-		  Man-mode
-		  messages-buffer-mode
-		  Messages
-		  minibuffer-mode
-		  process-menu-mode
-		  geiser-repl-mode
-		  slime-repl-mode
-		  tab-switcher-mode
-		  xref--xref-buffer-mode))
+                  dired-mode
+                  eww-mode
+                  help-mode
+                  inferior-emacs-lisp-mode
+                  inferior-python-mode
+                  Info-mode
+                  Man-mode
+                  messages-buffer-mode
+                  Messages
+                  minibuffer-mode
+                  process-menu-mode
+                  geiser-repl-mode
+                  slime-repl-mode
+                  tab-switcher-mode
+                  xref--xref-buffer-mode))
     (add-to-list 'evil-emacs-state-modes mode)
     (evil-set-initial-state mode 'emacs)))
 
@@ -133,15 +133,15 @@
   :if (memq window-system '(mac ns))
   :init
   (setq exec-path-from-shell-arguments nil
-	exec-path-from-shell-check-startup-files nil)
+        exec-path-from-shell-check-startup-files nil)
   :config
   (dolist (var '("C_INCLUDE_PATH"
-		 "LSP_USE_PLISTS"
-		 "GOPATH"
-		 "GPG_AGENT_INFO"
-		 "GUILE_LOAD_PATH"
-		 "SSH_AUTH_SOCK"
-		 "SSH_AGENT_PID"))
+                 "LSP_USE_PLISTS"
+                 "GOPATH"
+                 "GPG_AGENT_INFO"
+                 "GUILE_LOAD_PATH"
+                 "SSH_AUTH_SOCK"
+                 "SSH_AGENT_PID"))
     (add-to-list 'exec-path-from-shell-variables var))
   (exec-path-from-shell-initialize)
   :demand t)
@@ -159,7 +159,7 @@
   (require 'gptel-org)
   :init
   (setq gptel-model 'gpt-4.1
-	gptel-default-mode 'org-mode))
+        gptel-default-mode 'org-mode))
 
 (use-package graphviz-dot-mode)
 
@@ -175,7 +175,7 @@
   :init
   (setq languagetool-java-arguments
         '("-Dfile.encoding=UTF-8"
-                                    "-cp" "/usr/share/languagetool:/usr/share/java/languagetool/*")
+          "-cp" "/usr/share/languagetool:/usr/share/java/languagetool/*")
         languagetool-console-command
         "org.languagetool.commandline.Main"
         languagetool-server-command
@@ -290,7 +290,7 @@
 (use-package undo-tree
   :init
   (setq undo-tree-history-directory-alist
-      `(("." . ,(concat user-emacs-directory "undo-tree"))))
+        `(("." . ,(concat user-emacs-directory "undo-tree"))))
   :hook
   ((evil-local-mode . undo-tree-mode)))
 

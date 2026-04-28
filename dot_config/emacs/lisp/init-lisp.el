@@ -63,7 +63,7 @@
 (use-package slime
   :hook
   ((slime-mode . enable-paredit-mode)
-         (slime-repl-mode . enable-paredit-mode))
+   (slime-repl-mode . enable-paredit-mode))
   :init
   (setq inferior-lisp-program "sbcl"
         slime-protocol-version 'ignore)

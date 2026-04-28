@@ -12,7 +12,7 @@
   :straight nil
   :hook
   ((python-mode . my-python-mode-hook)
-  (python-ts-mode . my-python-mode-hook)
+   (python-ts-mode . my-python-mode-hook)
    (before-save . lsp-format-buffer))
   :init
   (defun my-python-mode-hook ()
