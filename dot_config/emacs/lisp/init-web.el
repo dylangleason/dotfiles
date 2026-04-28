@@ -1,42 +1,45 @@
 ;;; -*- lexical-binding: t -*-
 
-(use-package company-web
-  :demand t
-  :config
-  (eval-after-load 'company-mode
-    (add-to-list 'company-backends 'company-web-html)))
+(when (treesit-available-p)
+  (my-treesit-add-grammar 'json "https://github.com/tree-sitter/tree-sitter-json"))
 
-(use-package impatient-mode)
-
-(use-package js-comint)
-
-(use-package js2-mode
-  :hook (js2-mode . lsp-deferred)
-  :bind (:map js2-mode-map
-              ("C-x C-e" . js-send-last-sexp)
-              ("C-x M-x" . js-send-last-sexp-and-go)
-              ("C-c C-r" . js-send-region)
-              ("C-c C-b" . js-send-buffer-and-go)
-              ("C-c b" . js-send-buffer)
-              ("C-c l" . js-load-file-and-go)
-              ("C-c i" . js-doc-insert-function-doc))
-  :mode "\\.js\\'"
+(use-package css-mode
+  :straight nil
   :init
   (setq indent-tabs-mode nil))
 
-(use-package json-mode)
+(use-package json-ts-mode
+  :if (treesit-language-available-p 'json)
+  :straight nil)
+
+(use-package json-mode
+  :unless (treesit-language-available-p 'json))
+
+(use-package restclient
+  :demand t
+  :init
+  (add-to-list 'auto-mode-alist '("\\.http\\'" . restclient-mode)))
 
 (use-package simple-httpd
   :straight nil
   :config
   (setq httpd-port 7070))
 
+(use-package company-web
+  :demand t
+  :init
+  (with-eval-after-load 'company-mode
+    (add-to-list 'company-backends 'company-web-html)))
+
 (use-package web-mode
-  :mode "\\.html?\\'"
+  :mode
+  (("\\.html?\\'" . web-mode)
+   ("\\.svg\\'" . web-mode))
   :config
   (setq web-mode-css-indent-offset 2
         web-mode-code-indent-offset 2
-        web-mode-markup-indent-offset 2
-        web-mode-content-types-alist '(("jsx" . "\\.js[x]?\\'"))))
+        web-mode-markup-indent-offset 2))
+
+(use-package w3m)
 
 (provide 'init-web)

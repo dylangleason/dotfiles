@@ -24,8 +24,11 @@
 (with-eval-after-load 'package
   (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/")))
 
+(setq-default indent-tabs-mode nil)
+
 (setq backup-by-copying t
       backup-directory-alist `(("." . ,(concat user-emacs-directory "backup")))
+      auto-save-file-name-transforms `((".*" ,(concat user-emacs-directory "auto-save/") t))
       delete-old-versions t
       kept-new-versions 5
       kept-old-versions 5
@@ -91,9 +94,11 @@
 
 (add-to-list 'load-path (concat user-emacs-directory "tree-sitter"))
 
-(defun my-treesit-add-grammar (grammar src)
-  "Add a treesitter language grammar given GRAMMAR and SRC."
-  (add-to-list 'treesit-language-source-alist (list grammar src))
+(defun my-treesit-add-grammar (grammar src &rest args)
+  "Add a treesitter language grammar given GRAMMAR and SRC, as well
+as the rest of the optional ARGS."
+  (add-to-list 'treesit-language-source-alist
+	       (append (list grammar src) args))
   (unless (treesit-language-available-p grammar)
     (treesit-install-language-grammar grammar)))
 
@@ -114,6 +119,8 @@
 
 (setq straight-use-package-by-default t)
 (straight-use-package 'use-package)
+
+(setq use-package-always-defer t)
 
 ;;; Require additional elisp packages in the lisp directory
 

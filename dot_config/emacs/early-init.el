@@ -1,5 +1,8 @@
 ;;; -*- lexical-binding: t -*-
 
+;; disable package.el since we'll be using straight.el
+(setq package-enable-at-startup nil)
+
 (defun my-value-to-mb (value)
   "Converts a value to megabytes"
   (* value 1024 1024))
@@ -16,7 +19,3 @@
     (funcall mode -1)))
 
 (setq inhibit-startup-message t)
-
-;; disable package.el since we'll be using straight.el
-(when (version<= "26" emacs-version)
-  (setq package-enable-at-startup nil))
