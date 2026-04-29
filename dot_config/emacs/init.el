@@ -118,8 +118,6 @@ as the rest of the optional ARGS."
   (load bootstrap-file nil 'nomessage))
 
 (setq straight-use-package-by-default t)
-(straight-use-package 'use-package)
-
 (setq use-package-always-defer t)
 
 ;;; Require additional elisp packages in the lisp directory
