@@ -1,15 +1,4 @@
-;;; -*- lexical-binding: t -*-
-
-(use-package org
-  :demand t)
-
-(use-package org-compat
-  :after org
-  :straight nil)
-
-(org-babel-do-load-languages
- 'org-babel-load-languages
- '((python . t)))
+;; -*- lexical-binding: t; -*-
 
 (use-package all-the-icons)
 
@@ -70,7 +59,10 @@
 
 (use-package copilot
   :straight
-  (copilot :type git :host github :repo "copilot-emacs/copilot.el" :files ("dist" "*.el")))
+  (copilot :type git
+           :host github
+           :repo "copilot-emacs/copilot.el"
+           :files ("dist" "*.el")))
 
 (use-package dap-mode
   :bind ("C-c g" . dap-hydra))
@@ -104,10 +96,7 @@
   :demand t
   :init
   (setq evil-want-integration t
-        evil-undo-system 'undo-tree)
-  :hook
-  ((evil-emacs-state-entry . (lambda () (undo-tree-mode -1)))
-   (evil-emacs-state-exit . (lambda () (undo-tree-mode 1))))
+        evil-undo-system 'undo-redo)
   :config
   (evil-mode t)
   (dolist (mode '(comint-mode
@@ -153,14 +142,6 @@
 (use-package flycheck-inline
   :after (flycheck))
 
-(use-package gptel
-  :config
-  (require 'gptel-integrations)
-  (require 'gptel-org)
-  :init
-  (setq gptel-model 'gpt-4.1
-        gptel-default-mode 'org-mode))
-
 (use-package graphviz-dot-mode)
 
 (use-package languagetool
@@ -179,12 +160,7 @@
         languagetool-console-command
         "org.languagetool.commandline.Main"
         languagetool-server-command
-        "org.languagetool.server.HTTPServer")
-
-  ;; (setq languagetool-java-arguments '("-Dfile.encoding=UTF-8")
-  ;;       languagetool-console-command "/usr/bin/languagetool"
-  ;;       languagetool-server-command "/usr/bin/languagetool")
-  )
+        "org.languagetool.server.HTTPServer"))
 
 (use-package lsp-mode
   :hook (lsp-mode . my-increase-gc-threshold)
@@ -228,10 +204,13 @@
   (completion-styles '(orderless basic))
   (completion-category-overrides '((file (styles basic partial-completion)))))
 
-(use-package org-present
-  :bind
-  (("C-c h" . org-present-prev)
-   ("C-c l" . org-present-next)))
+(use-package org
+  :demand t
+  :straight nil
+  :config
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((python . t))))
 
 (use-package projectile
   :config
@@ -286,13 +265,6 @@
 (use-package treemacs-projectile)
 
 (use-package uuidgen)
-
-(use-package undo-tree
-  :init
-  (setq undo-tree-history-directory-alist
-        `(("." . ,(concat user-emacs-directory "undo-tree"))))
-  :hook
-  ((evil-local-mode . undo-tree-mode)))
 
 (use-package vertico
   :init

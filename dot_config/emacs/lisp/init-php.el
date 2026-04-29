@@ -1,8 +1,11 @@
 ;; -*- lexical-binding: t; -*-
 
-(when (and (treesit-available-p)
-           (not (treesit-language-available-p 'php)))
-  (php-ts-mode-install-parsers))
+(when (treesit-available-p)
+  (my-treesit-add-grammar
+   'php
+   "https://github.com/tree-sitter/tree-sitter-php"
+   "v0.24.2"
+   "php/src"))
 
 (use-package php-ts-mode
   :straight nil

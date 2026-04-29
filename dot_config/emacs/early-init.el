@@ -1,4 +1,4 @@
-;;; -*- lexical-binding: t -*-
+;; -*- lexical-binding: t; -*-
 
 ;; disable package.el since we'll be using straight.el
 (setq package-enable-at-startup nil)

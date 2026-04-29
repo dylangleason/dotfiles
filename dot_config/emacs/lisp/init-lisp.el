@@ -1,4 +1,4 @@
-;;; -*- lexical-binding: t -*-
+;; -*- lexical-binding: t; -*-
 
 (when (treesit-available-p)
   (my-treesit-add-grammar 'clojure "https://github.com/sogaiu/tree-sitter-clojure"))
@@ -43,7 +43,7 @@
   :straight nil
   :mode "\\(\\.el\\|Cask\\)\\'"
   :hook ((emacs-lisp-mode . enable-paredit-mode)
-	 (ielm-mode . enable-paredit-mode)))
+         (ielm-mode . enable-paredit-mode)))
 
 (use-package geiser
   :hook (geiser-repl-mode . enable-paredit-mode))

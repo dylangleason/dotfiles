@@ -1,4 +1,4 @@
-;;; -*- lexical-binding: t -*-
+;; -*- lexical-binding: t; -*-
 
 (when (treesit-available-p)
   (my-treesit-add-grammar 'ruby "https://github.com/tree-sitter/tree-sitter-ruby"))
@@ -32,7 +32,7 @@
 	    path)))
 
 (use-package ruby-ts-mode
-  :if (treesit-available-p)
+  :if (treesit-language-available-p 'ruby)
   :straight nil
   :hook
   (ruby-ts-mode . my-ruby-mode-hook)
@@ -42,7 +42,7 @@
   :interpreter "ruby")
 
 (use-package ruby-mode
-  :unless (treesit-available-p)
+  :unless (treesit-language-available-p 'ruby)
   :straight nil
   :hook
   (ruby-mode . my-ruby-mode-hook)

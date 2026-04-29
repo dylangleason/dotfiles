@@ -1,4 +1,4 @@
-;;; -*- lexical-binding: t -*-
+;; -*- lexical-binding: t; -*-
 
 (when (treesit-available-p)
   (my-treesit-add-grammar 'c "https://github.com/tree-sitter/tree-sitter-c")

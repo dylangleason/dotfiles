@@ -1,4 +1,4 @@
-;;; -*- lexical-binding: t -*-
+;; -*- lexical-binding: t; -*-
 
 (when (treesit-available-p)
   (my-treesit-add-grammar 'elixir "https://github.com/elixir-lang/tree-sitter-elixir")
