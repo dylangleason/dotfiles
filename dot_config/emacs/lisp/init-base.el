@@ -164,8 +164,9 @@
 
 (use-package lsp-mode
   :hook (lsp-mode . my-increase-gc-threshold)
-  :custom (lsp-keymap-prefix "C-c l")
   :config
+  (define-key lsp-mode-map (kbd "C-c l") lsp-command-map)
+  (setq read-process-output-max (my-value-to-mb 1))
   ;; use expert-elixir instead of elixir-ls
   (add-to-list 'lsp-disabled-clients 'elixir-ls)
   (lsp-register-client
@@ -173,9 +174,7 @@
     :new-connection (lsp-stdio-connection
                      '("~/.local/bin/expert_linux_amd64" "--stdio"))
     :activation-fn (lsp-activate-on "elixir")
-    :server-id 'expert-elixir))
-  :init
-  (setq read-process-output-max (my-value-to-mb 1)))
+    :server-id 'expert-elixir)))
 
 (use-package lsp-treemacs
   :config
@@ -213,9 +212,8 @@
    '((python . t))))
 
 (use-package projectile
-  :config
-  (projectile-mode 1)
-  :custom (projectile-keymap-prefix "C-c p")
+  :bind-keymap ("C-c p" . projectile-command-map)
+  :config (projectile-mode 1)
   :demand t
   :init
   (setq projectile-require-project-root t))
