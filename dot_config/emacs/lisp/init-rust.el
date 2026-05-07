@@ -7,11 +7,11 @@
   :if (treesit-language-available-p 'rust)
   :straight nil
   :hook
-  ((rust-ts-mode . my-rust-mode-hook)
-   (before-save . lsp-format-buffer))
+  ((rust-ts-mode . my-rust-mode-hook))
   :init
   (defun my-rust-mode-hook ()
     (setq-local compile-command "rustc")
+    (add-to-list 'before-save-hook #'lsp-format-buffer nil t)
     (flycheck-mode)
     (lsp-deferred))
   (add-to-list 'major-mode-remap-alist '(rust-mode . rust-ts-mode)))

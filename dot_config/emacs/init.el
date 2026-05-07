@@ -54,7 +54,10 @@
 
 (recentf-mode 1)
 
-(global-set-key (kbd "C-c C-c") 'comment-or-uncomment-region)
+;;; global key map settings
+
+(keymap-global-set "C-h L" #'shortdoc-display-group)
+(keymap-global-set "C-c C-c" #'comment-or-uncomment-region)
 
 ;;; dired settings
 
@@ -117,8 +120,8 @@ as the rest of the optional ARGS."
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
 
-(setq straight-use-package-by-default t)
-(setq use-package-always-defer t)
+(setq straight-use-package-by-default t
+      use-package-always-defer t)
 
 ;;; Require additional elisp packages in the lisp directory
 

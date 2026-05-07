@@ -10,7 +10,7 @@
 (defun my-cider-repl-mode-hook ()
   (company-mode)
   (enable-paredit-mode)
-  (local-set-key (kbd "C-c C-b") 'cider-repl-clear-buffer))
+  (bind-key "C-c C-b" #'cider-repl-clear-buffer 'local))
 
 (defun my-clojure-mode-hook ()
   (setq enable-completion-at-point nil)
@@ -39,9 +39,9 @@
   :unless (treesit-language-available-p 'clojure)
   :hook (clojure-mode . my-clojure-mode-hook))
 
-(use-package emacs-lisp-mode
+(use-package elisp-mode
   :straight nil
-  :mode "\\(\\.el\\|Cask\\)\\'"
+  :mode ("\\(\\.el\\|Cask\\)\\'" . emacs-lisp-mode)
   :hook ((emacs-lisp-mode . enable-paredit-mode)
          (ielm-mode . enable-paredit-mode)))
 

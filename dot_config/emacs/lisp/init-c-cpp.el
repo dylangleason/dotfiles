@@ -13,6 +13,7 @@
 (defun my-c-mode-common-hook ()
   (setq-local indent-tabs-mode nil
               c-ts-mode-indent-offset 4)
+  (add-hook 'before-save-hook #'lsp-format-buffer nil t)
   (flycheck-mode)
   (lsp-deferred))
 
@@ -39,8 +40,7 @@
   :straight nil
   :hook
   ((c-ts-mode . my-c-mode-hook)
-   (c++-ts-mode . my-c++-mode-hook)
-   (before-save . lsp-format-buffer))
+   (c++-ts-mode . my-c++-mode-hook))
   :init
   (with-eval-after-load 'lsp-mode
     (require 'dap-cpptools))

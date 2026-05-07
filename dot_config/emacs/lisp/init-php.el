@@ -12,11 +12,11 @@
   :mode ("\\.php\\'" . php-ts-mode)
   :interpreter ("php" . php-ts-mode)
   :hook
-  ((php-ts-mode . my-php-mode-hook)
-   (before-save . lsp-format-buffer))
+  ((php-ts-mode . my-php-mode-hook))
   :init
   (defun my-php-mode-hook ()
     (setq-local tab-width 4)
+    (add-hook 'before-save-hook #'lsp-format-buffer nil t)
     (flycheck-mode)
     (lsp-deferred)))
 

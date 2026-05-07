@@ -17,8 +17,7 @@
   :straight nil
   :hook
   ((js-mode . my-js-mode-hook)
-   (js-ts-mode . my-js-mode-hook)
-   (before-save . lsp-format-buffer))
+   (js-ts-mode . my-js-mode-hook))
   :init
   (defun my-js-bind-local-keymap (key-map)
     (bind-key "C-x C-e" #'js-send-last-sexp key-map)
@@ -28,6 +27,7 @@
   (defun my-js-mode-hook ()
     (setq-local indent-tabs-mode nil)
     (setq-local tab-width 2)
+    (add-hook 'before-save-hook #'lsp-format-buffer nil t)
     (my-js-bind-local-keymap (current-local-map))
     (flycheck-mode)
     (lsp-deferred))
@@ -41,11 +41,11 @@
   :straight nil
   :mode "\\.ts[x]?\\'"
   :hook
-  ((typescript-ts-mode . my-typescript-mode-hook)
-   (before-save . lsp-format-buffer))
+  ((typescript-ts-mode . my-typescript-mode-hook))
   :init
   (defun my-typescript-mode-hook ()
     (setq-local typescript-indent-level 2)
+    (add-hook 'before-save-hook #'lsp-format-buffer nil t)
     (flycheck-mode)
     (lsp-deferred)))
 

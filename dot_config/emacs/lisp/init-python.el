@@ -12,11 +12,11 @@
   :straight nil
   :hook
   ((python-mode . my-python-mode-hook)
-   (python-ts-mode . my-python-mode-hook)
-   (before-save . lsp-format-buffer))
+   (python-ts-mode . my-python-mode-hook))
   :init
   (defun my-python-mode-hook ()
     (add-to-list 'interpreter-mode-alist (cons "python" major-mode))
+    (add-hook 'before-save-hook #'lsp-format-buffer nil t)
     (blacken-mode)
     (flycheck-mode)
     (lsp-deferred))

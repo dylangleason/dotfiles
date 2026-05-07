@@ -39,17 +39,28 @@
   :hook (lsp-mode . my-lsp-bind-local-keymap)
   :init
   (defun my-lsp-bind-local-keymap ()
-    (bind-key "C-c l f" #'consult-lsp-file-symbols 'lsp-mode-map)
+    (bind-key "f" #'consult-lsp-file-symbols lsp-command-map)
     (bind-key [remap xref-find-apropos] #'consult-lsp-symbols 'lsp-mode-map)))
 
 (use-package consult-projectile
-  :hook (projectile-mode . my-projectile-bind-local-keymap)
+  :hook (projectile-mode . my-consult-bind-projectile-keymap)
   :init
-  (defun my-projectile-bind-local-keymap ()
-    (bind-key "C-c p f" #'consult-projectile-find-file 'projectile-mode-map)
-    (bind-key "C-c p p" #'consult-projectile-switch-project 'projectile-mode-map)
-    (bind-key "C-c p b" #'consult-projectile-switch-to-buffer 'projectile-mode-map)
-    (bind-key "C-c p e" #'consult-projectile-recentf 'projectile-mode-map)))
+  (defun my-consult-bind-projectile-keymap ()
+    (bind-key [remap projectile-find-file]
+              #'consult-projectile-find-file
+              'projectile-mode-map)
+    (bind-key [remap projectile-find-dir]
+              #'consult-projectile-find-dir
+              'projectile-mode-map)
+    (bind-key [remap projectile-switch-project]
+              #'consult-projectile-switch-project
+              'projectile-mode-map)
+    (bind-key [remap projectile-switch-to-buffer]
+              #'consult-projectile-switch-to-buffer
+              'projectile-mode-map)
+    (bind-key [remap projectile-recentf]
+              #'consult-projectile-recentf
+              'projectile-mode-map)))
 
 (use-package codex-cli
   :init
@@ -154,18 +165,16 @@
              languagetool-server-start
              languagetool-server-stop)
   :init
-  (setq languagetool-java-arguments
-        '("-Dfile.encoding=UTF-8"
-          "-cp" "/usr/share/languagetool:/usr/share/java/languagetool/*")
-        languagetool-console-command
-        "org.languagetool.commandline.Main"
-        languagetool-server-command
-        "org.languagetool.server.HTTPServer"))
+  (setq languagetool-java-arguments '("-Dfile.encoding=UTF-8"
+                                      "-cp"
+                                      "/usr/share/languagetool:/usr/share/java/languagetool/*")
+        languagetool-console-command "org.languagetool.commandline.Main"
+        languagetool-server-command "org.languagetool.server.HTTPServer"))
 
 (use-package lsp-mode
   :hook (lsp-mode . my-increase-gc-threshold)
   :config
-  (define-key lsp-mode-map (kbd "C-c l") lsp-command-map)
+  (bind-key "C-c l" lsp-command-map lsp-mode-map)
   (setq read-process-output-max (my-value-to-mb 1))
   ;; use expert-elixir instead of elixir-ls
   (add-to-list 'lsp-disabled-clients 'elixir-ls)
@@ -180,7 +189,7 @@
   :config
   (lsp-treemacs-sync-mode 1)
   :hook
-  (lsp-mode . (lambda () (local-set-key (kbd "C-c l n") #'lsp-treemacs-symbols))))
+  (lsp-mode . (lambda () (bind-key "n" #'lsp-treemacs-symbols lsp-command-map))))
 
 (use-package lsp-ui
   :config
@@ -214,7 +223,6 @@
 (use-package projectile
   :bind-keymap ("C-c p" . projectile-command-map)
   :config (projectile-mode 1)
-  :demand t
   :init
   (setq projectile-require-project-root t))
 
@@ -286,6 +294,7 @@
 
 (use-package which-key
   :straight nil
+  :hook (lsp-mode . lsp-enable-which-key-integration)
   :init
   (which-key-mode)
   :config

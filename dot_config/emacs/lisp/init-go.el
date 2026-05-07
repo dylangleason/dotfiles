@@ -9,8 +9,7 @@
   (lsp-organize-imports))
 
 (defun my-go-mode-hook ()
-  (setq lsp-go-use-gofumpt t
-	lsp-go-env '((GOFLAGS . "--tags=wireinject")))
+  (setq lsp-go-use-gofumpt t)
   (setq-local compile-command "go build -gcflags=\"all=-N -l\" .")
   (require 'dap-dlv-go)
   (add-hook 'before-save-hook #'my-go-before-save-hook nil t)
